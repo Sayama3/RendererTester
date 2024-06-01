@@ -26,6 +26,7 @@ namespace Math {
       template<typename OT, uint64_t OC, uint64_t OR>
       explicit Matrix(const Matrix<OT,OC,OR>& other);
       Matrix(const std::array<T, R * C> &values);
+      Matrix(const T& val);
 
       static Matrix<T,C,R> Identity();
 
@@ -57,6 +58,14 @@ namespace Math {
          std::array<T, R*C> values;
       };
    };
+
+   template<typename T, uint64_t C, uint64_t R>
+   Matrix<T, C, R>::Matrix(const T &val) {
+      std::memset(values.data(), 0, C * R * sizeof(T));
+      for (int i = 0; i < std::min(C,R); ++i) {
+         rows[i][i] = val;
+      }
+   }
 
    template<typename T, uint64_t C, uint64_t R>
    bool Matrix<T, C, R>::CanBeInverse() const {
@@ -108,7 +117,7 @@ namespace Math {
 
    template<typename T, uint64_t C, uint64_t R>
    Matrix<T, C, R>::Matrix() {
-      std::memset(rows, 0, sizeof(T) * C * R);
+      std::memset(values.data(), 0, sizeof(T) * C * R);
       if(C == R) {
          for (int i = 0; i < std::min(C, R); ++i) {
             rows[i][i] = 1;
@@ -120,7 +129,7 @@ namespace Math {
    template<typename OT, uint64_t OC, uint64_t OR>
    Matrix<T,C,R>::Matrix(const Matrix<OT,OC,OR>& other)
    {
-      std::memset(rows, 0, sizeof(T) * C * R);
+      std::memset(values.data(), 0, sizeof(T) * C * R);
       for (int r = 0; r < std::min(OR, R); ++r) {
          for (int c = 0; c < std::min(OC, C); ++c) {
             rows[r][c] = other(r, c);

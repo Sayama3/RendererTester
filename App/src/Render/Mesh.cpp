@@ -45,11 +45,10 @@ namespace Render {
       CORE_PROFILE_FUNCTION();
       m_VertexArray = Core::CreateRef<VertexArray>();
 
-      Core::Ref<IndexBuffer> indexBuffer = Core::CreateRef<IndexBuffer>(indices.data(), indices.size());
+      Core::Ref<IndexBuffer> indexBuffer = Core::CreateRef<IndexBuffer>(Core::Buffer{indices.data(), indices.size()});
       m_VertexArray->SetIndexBuffer(indexBuffer);
 
-      Core::Ref<VertexBuffer> vertexBuffer = Core::CreateRef<VertexBuffer>(vertex.data(),
-                                                                           vertex.size() * sizeof(Vertex));
+      Core::Ref<VertexBuffer> vertexBuffer = Core::CreateRef<VertexBuffer>(Core::Buffer{const_cast<Vertex*>(vertex.data()), vertex.size()});
       vertexBuffer->SetLayout(Vertex::GetBufferLayout());
       m_VertexArray->AddVertexBuffer(vertexBuffer);
    }

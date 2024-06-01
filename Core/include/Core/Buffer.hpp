@@ -15,7 +15,9 @@ namespace Core {
       Buffer(const Buffer&) = default;
       Buffer& operator=(const Buffer&) = default;
       ~Buffer() = default;
-      Buffer(void* data, uint64_t size) : data(reinterpret_cast<uint8_t *>(data)), size(size) {}
+      template<typename T>
+      Buffer(T* data, uint64_t count) : data(reinterpret_cast<uint8_t*>(data)), size(count * sizeof(T)) {}
+      explicit Buffer(void* data, uint64_t size) : data(reinterpret_cast<uint8_t *>(data)), size(size) {}
 
       void Allocate(uint64_t size);
       void Release();

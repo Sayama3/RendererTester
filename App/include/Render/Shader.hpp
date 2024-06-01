@@ -37,6 +37,11 @@ namespace Render {
       void Bind();
       void Unbind();
       [[nodiscard]] uint32_t GetRenderID() const;
+   public:
+      void SetUniformMat4(const std::string& name, const Math::Mat4& matrix);
+      void SetUniformMat3(const std::string& name, const Math::Mat3& matrix);
+      void SetUniformVec4(const std::string& name, const Math::Vec4& matrix);
+      void SetUniformVec3(const std::string& name, const Math::Vec3& matrix);
    private:
       bool CompileShaders();
       bool LinkShaders();

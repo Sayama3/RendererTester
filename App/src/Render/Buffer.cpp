@@ -122,7 +122,7 @@ namespace Render {
    }
 
 
-   VertexBuffer::VertexBuffer(Core::Buffer data, BufferLayout&& layout) : m_Layout(std::move(layout))
+   VertexBuffer::VertexBuffer(Core::Buffer data, BufferLayout layout) : m_Layout(std::move(layout))
    {
       CORE_PROFILE_FUNCTION();
       glCreateBuffers(1, &m_RenderID);

@@ -3,6 +3,7 @@
 //
 
 #include "Render/Shader.hpp"
+#include <algorithm>
 #include <glad/glad.h>
 
 namespace Render {
@@ -59,7 +60,6 @@ namespace Render {
       {
          Type type = (Type)i;
          const std::string& source = m_Sources[i];
-         CORE_ASSERT(!source.empty(), "The shader type {} is empty.", ShaderSourceTypeToString(type));
          if(source.empty()) continue;
 
          m_Shaders[type] = glCreateShader(ShaderSourceTypeToGLType(type));
@@ -82,7 +82,7 @@ namespace Render {
          }
       }
 
-      return true;
+      return std::any_of(m_Shaders.begin(), m_Shaders.end(), [&](const auto &item) { return item;});
    }
 
    bool Shader::LinkShaders() {
@@ -134,6 +134,30 @@ namespace Render {
    uint32_t Shader::GetRenderID() const
    {
       return m_RenderID;
+   }
+
+   void Shader::SetUniformMat4(const std::string &name, const Math::Mat4 &matrix) {
+      CORE_PROFILE_FUNCTION();
+      auto location = glGetUniformLocation(m_RenderID, name.c_str());
+      glUniformMatrix4fv(location, 1, GL_FALSE, matrix.get());
+   }
+
+   void Shader::SetUniformMat3(const std::string &name, const Math::Mat3 &matrix) {
+      CORE_PROFILE_FUNCTION();
+      auto location = glGetUniformLocation(m_RenderID, name.c_str());
+      glUniformMatrix3fv(location, 1, GL_FALSE, matrix.get());
+   }
+
+   void Shader::SetUniformVec4(const std::string &name, const Math::Vec4 &matrix) {
+      CORE_PROFILE_FUNCTION();
+      auto location = glGetUniformLocation(m_RenderID, name.c_str());
+      glUniform4fv(location, 1, matrix.get());
+   }
+
+   void Shader::SetUniformVec3(const std::string &name, const Math::Vec3 &matrix) {
+      CORE_PROFILE_FUNCTION();
+      auto location = glGetUniformLocation(m_RenderID, name.c_str());
+      glUniform3fv(location, 1, matrix.get());
    }
 
    std::string ShaderSourceTypeToString(Shader::Type sst) {

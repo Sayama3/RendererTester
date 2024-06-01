@@ -76,7 +76,7 @@ namespace Render {
       static Core::Ref<VertexBuffer> Create(Core::Buffer data, BufferLayout layout);
    public:
       VertexBuffer(Core::Buffer data);
-      VertexBuffer(Core::Buffer data, BufferLayout&& layout);
+      VertexBuffer(Core::Buffer data, BufferLayout layout);
       ~VertexBuffer();
       VertexBuffer(const VertexBuffer&) = delete;
       VertexBuffer& operator=(const VertexBuffer&) = delete;
