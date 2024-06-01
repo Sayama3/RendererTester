@@ -4,6 +4,10 @@ set(APP_SRC
         src/main.cpp
         include/App/Application.hpp
         src/App/Application.cpp
+        src/App/Window.cpp
+        include/App/Window.hpp
+        src/App/Renderer.cpp
+        include/App/Renderer.hpp
 )
 
 add_executable(App ${APP_SRC})
