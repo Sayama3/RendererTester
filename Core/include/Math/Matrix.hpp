@@ -50,7 +50,7 @@ namespace Math {
       [[nodiscard]] Matrix<T, R, C> Transpose() const;
       [[nodiscard]] Matrix<T, std::min(C,R), std::min(C,R)> Inverse() const;
       [[nodiscard]] bool CanBeInverse() const;
-      [[nodiscard]] T Determinent() const;
+      [[nodiscard]] T Determinant() const;
    private:
       union  {
          std::array<Col, R> rows;
@@ -66,7 +66,7 @@ namespace Math {
    }
 
    template<typename T, uint64_t C, uint64_t R>
-   T Matrix<T, C, R>::Determinent() const {
+   T Matrix<T, C, R>::Determinant() const {
       static_assert(C == R, "The determinant can only be calculated for square matrices.");
       if(C != R) {
          return 0;
@@ -95,7 +95,7 @@ namespace Math {
          if (p % 2 == 1)
             factor = -factor;
 
-         det += factor * subMatrix.Determinent();
+         det += factor * subMatrix.Determinant();
       }
 
       return det;
