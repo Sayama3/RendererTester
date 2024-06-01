@@ -4,6 +4,9 @@
 
 #pragma once
 
+#include "Core/Macro.hpp"
 #include "Core/Logger.hpp"
 #include "Core/Profilier.hpp"
-#include "../../src/Math/Math.cpp"
+#include "Math/Vector.hpp"
+#include "Math/Matrix.hpp"
+#include "Math/Math.hpp"

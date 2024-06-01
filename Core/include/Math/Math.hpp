@@ -6,6 +6,8 @@
 
 #include "Vector.hpp"
 #include "Matrix.hpp"
+#include <cstdint>
+#include <cmath>
 
 namespace Math {
 

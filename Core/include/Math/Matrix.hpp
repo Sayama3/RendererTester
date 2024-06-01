@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Vector.hpp"
+#include <cstdint>
 #include <cmath>
 #include <stdexcept>
 
