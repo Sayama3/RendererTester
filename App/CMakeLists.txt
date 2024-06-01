@@ -6,7 +6,7 @@ set(APP_SRC
         src/App/Application.cpp
 )
 
-add_executable(App ${MEIOR_SRC})
+add_executable(App ${APP_SRC})
 
 target_include_directories(App PUBLIC include)
 target_include_directories(App PRIVATE src)
