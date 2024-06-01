@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/mgw/debug/_deps/assimp-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/mgw/debug/_deps/glfw-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/mgw/debug/_deps/imgui-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/mgw/debug/_deps/spdlog-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/mgw/release/_deps/assimp-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/mgw/release/_deps/glfw-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/mgw/release/_deps/imgui-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/mgw/release/_deps/spdlog-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/msvc/debug/_deps/assimp-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/msvc/debug/_deps/glfw-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/msvc/debug/_deps/imgui-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/msvc/debug/_deps/spdlog-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/msvc/release/_deps/assimp-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/msvc/release/_deps/glfw-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/msvc/release/_deps/imgui-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/build/msvc/release/_deps/spdlog-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/assimp-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/imgui-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/spdlog-src" vcs="Git" />
+  </component>
+</project>

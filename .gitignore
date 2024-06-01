@@ -30,3 +30,15 @@
 *.exe
 *.out
 *.app
+
+# Compiled Shaders
+*.spv
+
+#IDE Caches
+.vscode/
+.vs/
+
+#Builds Folders
+cmake-build**/
+[Bb]uild/
+[Bb]uild**/
