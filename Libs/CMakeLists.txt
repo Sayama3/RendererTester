@@ -10,10 +10,10 @@ set(GLFW_BUILD_DOCS         OFF)
 set(GLFW_INSTALL            OFF)
 
 # ASSIMP Parameters
-set(ASSIMP_NO_EXPORT        ON)
-set(BUILD_STATIC_LIB        ON)
-set(BUILD_ASSIMP_TOOLS      ON)
-set(USE_SYSTEM_ASSIMP       ON)
+#set(ASSIMP_NO_EXPORT        ON)
+#set(BUILD_STATIC_LIB        ON)
+#set(BUILD_ASSIMP_TOOLS      ON)
+#set(USE_SYSTEM_ASSIMP       ON)
 
 FetchContent_Declare(
         spdlog
@@ -21,11 +21,11 @@ FetchContent_Declare(
         GIT_TAG 27cb4c76708608465c413f6d0e6b8d99a4d84302 # v1.14.1
 )
 
-FetchContent_Declare(
-        assimp
-        GIT_REPOSITORY https://github.com/assimp/assimp
-        GIT_TAG 10df90ec144179f97803a382e4f07c0570665864 # v5.4.1
-)
+#FetchContent_Declare(
+#        assimp
+#        GIT_REPOSITORY https://github.com/assimp/assimp
+#        GIT_TAG 10df90ec144179f97803a382e4f07c0570665864 # v5.4.1
+#)
 
 FetchContent_Declare(
         glfw
@@ -39,7 +39,8 @@ FetchContent_Declare(
         GIT_TAG docking #docking branch
 )
 
-FetchContent_MakeAvailable(spdlog assimp glfw imgui)
+#FetchContent_MakeAvailable(spdlog assimp glfw imgui)
+FetchContent_MakeAvailable(spdlog glfw imgui)
 
 target_link_libraries(imgui PUBLIC glfw)
 
