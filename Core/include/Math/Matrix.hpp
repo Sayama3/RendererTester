@@ -7,6 +7,7 @@
 #include "Vector.hpp"
 #include <cstdint>
 #include <cmath>
+#include <cstring>
 #include <stdexcept>
 
 namespace Math {

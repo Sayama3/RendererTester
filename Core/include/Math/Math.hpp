@@ -8,6 +8,7 @@
 #include "Matrix.hpp"
 #include <cstdint>
 #include <cmath>
+#include <cstring>
 
 namespace Math {
 
