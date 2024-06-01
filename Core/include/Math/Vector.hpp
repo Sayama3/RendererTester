@@ -28,6 +28,7 @@ namespace Math {
       template<typename OT, uint64_t ON>
       Vector(const Vector<OT, ON>& vec, const std::array<T, N-ON>& fill);
       Vector(const std::array<T, N>&);
+      Vector(const T&);
 
       Vector<T, N> operator+(Vector<T, N> other);
       Vector<T, N> operator-(Vector<T, N> other);
@@ -53,6 +54,13 @@ namespace Math {
    private:
       std::array<T, N> values;
    };
+
+   template<typename T, uint64_t N>
+   Vector<T, N>::Vector(const T & val) {
+      for (int i = 0; i < N; ++i) {
+         values[i] = val;
+      }
+   }
 
    template<typename T, uint64_t N>
    T Vector<T, N>::SqrMagnitude() {

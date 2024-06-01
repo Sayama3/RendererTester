@@ -6,7 +6,7 @@
 
 #include "Core/Core.hpp"
 
-namespace App {
+namespace Render {
 
    class Renderer {
    public:

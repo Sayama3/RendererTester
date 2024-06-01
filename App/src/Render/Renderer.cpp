@@ -2,19 +2,17 @@
 // Created by ianpo on 01/06/2024.
 //
 
-#include "App/Renderer.hpp"
+#include "Render/Renderer.hpp"
 
-#include <glad/glad.h>
+#include "glad/glad.h"
 
 #ifndef GLFW_INCLUDE_NONE
 #define GLFW_INCLUDE_NONE 1
 #endif
 
-#include <GLFW/glfw3.h>
+#include "GLFW/glfw3.h"
 
-namespace App {
-
-
+namespace Render {
    void Renderer::Initialize() {
       glEnable(GL_DEPTH);
    }

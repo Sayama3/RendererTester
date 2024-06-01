@@ -5,7 +5,8 @@
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
 #endif
 
-#include "spdlog/spdlog.h"
+#include "Macro.hpp"
+#include <spdlog/spdlog.h>
 
 namespace Core {
 
@@ -40,3 +41,11 @@ namespace Core {
 #define CORE_CRITICAL(...)
 
 #endif
+
+#ifndef CORE_DONT_USE_ASSERT
+   #define CORE_ASSERT(condition, ...) if(!(condition)) { CORE_ERROR(__VA_ARGS__); CORE_BREAK(); }
+#else
+   #define CORE_ASSERT(condition, ...)
+#endif
+
+#define CORE_CHECK(condition, ...)  if(!(condition)) { CORE_WARNING(__VA_ARGS__); }

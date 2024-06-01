@@ -7,6 +7,8 @@
 #include "Core/Macro.hpp"
 #include "Core/Logger.hpp"
 #include "Core/Profilier.hpp"
+#include "Core/Buffer.hpp"
+#include "Core/SmartPointers.hpp"
 #include "Math/Vector.hpp"
 #include "Math/Matrix.hpp"
 #include "Math/Math.hpp"

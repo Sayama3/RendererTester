@@ -6,8 +6,16 @@ set(APP_SRC
         src/App/Application.cpp
         src/App/Window.cpp
         include/App/Window.hpp
-        src/App/Renderer.cpp
-        include/App/Renderer.hpp
+        src/Render/Renderer.cpp
+        include/Render/Renderer.hpp
+        src/Render/Buffer.cpp
+        include/Render/Buffer.hpp
+        src/Render/VertexArray.cpp
+        include/Render/VertexArray.hpp
+        src/Render/Mesh.cpp
+        include/Render/Mesh.hpp
+        src/Render/Shader.cpp
+        include/Render/Shader.hpp
 )
 
 add_executable(App ${APP_SRC})
@@ -15,5 +23,6 @@ add_executable(App ${APP_SRC})
 target_include_directories(App PUBLIC include)
 target_include_directories(App PRIVATE src)
 
-target_link_libraries(App PUBLIC Core imgui glad glfw)
+target_link_libraries(App PUBLIC Core)
+target_link_libraries(App PRIVATE glad glfw)
 target_compile_features(App PUBLIC cxx_std_20)

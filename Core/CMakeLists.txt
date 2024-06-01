@@ -7,6 +7,9 @@ set(CORE_SRC
         include/Core/Profilier.hpp
         include/Math/Math.hpp
         src/Math/Math.cpp
+        src/Core/Buffer.cpp
+        include/Core/Buffer.hpp
+        include/Core/SmartPointers.hpp
 )
 
 add_library(Core STATIC ${CORE_SRC})
