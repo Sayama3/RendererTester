@@ -10,6 +10,9 @@ set(CORE_SRC
         src/Core/Buffer.cpp
         include/Core/Buffer.hpp
         include/Core/SmartPointers.hpp
+        src/Math/Quaternion.cpp
+        include/Math/Quaternion.hpp
+        include/Math/Common.hpp
 )
 
 add_library(Core STATIC ${CORE_SRC})

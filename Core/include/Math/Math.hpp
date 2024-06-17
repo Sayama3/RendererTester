@@ -4,8 +4,11 @@
 
 #pragma once
 
+#include "Core/Macro.hpp"
+#include "Core/Logger.hpp"
 #include "Vector.hpp"
 #include "Matrix.hpp"
+#include "Quaternion.hpp"
 #include <cstdint>
 #include <cmath>
 #include <cstring>
@@ -82,6 +85,69 @@ namespace Math {
    T DegToRad(T degree)
    {
       return degree * (std::numbers::pi_v<T> / static_cast<T>(180));
+   }
+
+   template<typename T>
+   Matrix<T, 4, 4> ToMat4(const Quaternion<T>& qua)
+   {
+      T w = qua[0];
+      T x = qua[1];
+      T y = qua[2];
+      T z = qua[3];
+
+      Matrix<T, 4, 4> matrix;
+
+      matrix(0, 0) = 1 - 2*y*y - 2*z*z;
+      matrix(0, 1) = 2*x*y - 2*z*w;
+      matrix(0, 2) = 2*x*z + 2*y*w;
+
+      matrix(1, 0) = 2*x*y + 2*z*w;
+      matrix(1, 1) = 1 - 2*x*x - 2*z*z;
+      matrix(1, 2) = 2*y*z - 2*x*w;
+
+      matrix(2, 0) = 2*x*z - 2*y*w;
+      matrix(2, 1) = 2*y*z + 2*x*w;
+      matrix(2, 2) = 1 - 2*x*x - 2*y*y;
+
+      return matrix;
+   }
+
+   template<typename T>
+   Matrix<T, 3, 3> ToMat3(const Quaternion<T>& qua)
+   {
+      T w = qua[0];
+      T x = qua[1];
+      T y = qua[2];
+      T z = qua[3];
+
+      Matrix<T, 3, 3> matrix;
+
+      matrix(0, 0) = 1 - 2*y*y - 2*z*z;
+      matrix(0, 1) = 2*x*y - 2*z*w;
+      matrix(0, 2) = 2*x*z + 2*y*w;
+
+      matrix(1, 0) = 2*x*y + 2*z*w;
+      matrix(1, 1) = 1 - 2*x*x - 2*z*z;
+      matrix(1, 2) = 2*y*z - 2*x*w;
+
+      matrix(2, 0) = 2*x*z - 2*y*w;
+      matrix(2, 1) = 2*y*z + 2*x*w;
+      matrix(2, 2) = 1 - 2*x*x - 2*y*y;
+
+      return matrix;
+   }
+
+   template<typename T>
+   void Translate(Matrix<T, 4, 4>& matrix, Vector<T, 3> translation)
+   {
+      matrix(0, 3) += translation[0];
+      matrix(1, 3) += translation[1];
+      matrix(2, 3) += translation[2];
+   }
+   template<typename T>
+   void Rotate(Matrix<T, 4, 4>& matrix, Quaternion<T> rotation)
+   {
+      matrix = matrix * ToMat4(rotation);
    }
 
 } // Math

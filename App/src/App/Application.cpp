@@ -23,22 +23,22 @@ uniform mat4 u_ViewProjectionMatrix = mat4(1);
 uniform mat4 u_ModelMatrix = mat4(1);
 uniform mat4 u_NormalMatrix = mat4(1);
 
-layout(location = 0) in vec3 a_Position;
-layout(location = 1) in vec3 a_Normal;
-layout(location = 2) in vec2 a_TexCoord;
-layout(location = 3) in vec4 a_Color;
+in vec3 a_Position;
+in vec3 a_Normal;
+in vec2 a_TexCoord;
+in vec4 a_Color;
 
-layout (location = 0) out vec3 v_Position;
-layout (location = 1) out vec3 v_Normal;
-layout (location = 2) out vec2 v_TexCoord;
-layout (location = 3) out vec4 v_Color;
+out vec3 v_Position;
+out vec3 v_Normal;
+out vec2 v_TexCoord;
+out vec4 v_Color;
 
 
 void main() {
     gl_Position = u_ViewProjectionMatrix * u_ModelMatrix * vec4(a_Position, 1.0);
     v_Position = (u_ModelMatrix * vec4(a_Position, 1.0)).xyz;
-    v_Normal = normalize((u_NormalMatrix * vec4(a_Normal, 1.0)).xyz);
 
+    v_Normal = normalize((u_NormalMatrix * vec4(a_Normal, 1.0)).xyz);
     v_TexCoord = a_TexCoord;
     v_Color = a_Color;
 }
@@ -51,15 +51,16 @@ uniform mat4 u_ModelMatrix;
 uniform mat4 u_NormalMatrix;
 
 
-layout (location = 0) out vec4 o_Color;
+out vec4 o_Color;
 
-layout (location = 0) in vec3 v_Position;
-layout (location = 1) in vec3 v_Normal;
-layout (location = 2) in vec2 v_TexCoord;
-layout (location = 3) in vec4 v_Color;
+in vec3 v_Position;
+in vec3 v_Normal;
+in vec2 v_TexCoord;
+in vec4 v_Color;
 
 void main()
 {
+   //o_Color = vec4((v_Normal + 1.0) * 0.5, 1.0);
    o_Color = vec4(v_Position, 1.0);
 }
 )";
@@ -145,6 +146,7 @@ void main()
          Math::Mat4 vp = Math::Perspective(Math::DegToRad(60.0f), 900.f/600.f, 0.1f, 100.f);
          Math::Mat4 m = Math::Mat4::Identity();
          m[3] = Math::Vec4({0.65f, 0.65f, -2.0f, 1});
+
          Math::Mat4 n = Math::Mat4::Identity();
          m_Shader->SetUniformMat4("u_ViewProjectionMatrix", vp);
          m_Shader->SetUniformMat4("u_ModelMatrix", m);

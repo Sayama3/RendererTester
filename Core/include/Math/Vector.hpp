@@ -10,6 +10,7 @@
 #include <cassert>
 #include <array>
 #include <stdexcept>
+#include "Common.hpp"
 
 namespace Math {
 
@@ -75,7 +76,7 @@ namespace Math {
    }
    template<typename T, uint64_t N>
    T Vector<T, N>::Magnitude() {
-      return std::sqrt(SqrMagnitude());
+      return Common::Sqrt(SqrMagnitude());
    }
 
    template<typename T, uint64_t N>
@@ -83,7 +84,7 @@ namespace Math {
       T magnitude = Magnitude();
 
       // Check if magnitude is zero
-      if (fabs(magnitude) < 1e-9) {
+      if (Common::Abs(magnitude) < 1e-9) {
          throw std::runtime_error("Can't normalize a zero vector");
       }
 
@@ -148,7 +149,7 @@ namespace Math {
    template<typename OT, uint64_t ON>
    Vector<T, N>::Vector(const Vector<OT, ON>& vec) {
       std::memset(values.data(), 0, N * sizeof(T));
-      for (int i = 0; i < std::min(N, ON); ++i) {
+      for (int i = 0; i < Common::Min(N, ON); ++i) {
          values[i] = reinterpret_cast<T>(vec[i]);
       }
    }
@@ -198,8 +199,8 @@ namespace Math {
       return other;
    }
 
-   using Vec4 = Vector<float, 4>;
-   using Vec3 = Vector<float, 3>;
-   using Vec2 = Vector<float, 2>;
+   using Vec4 = Vector<Real, 4>;
+   using Vec3 = Vector<Real, 3>;
+   using Vec2 = Vector<Real, 2>;
 
 } // Math

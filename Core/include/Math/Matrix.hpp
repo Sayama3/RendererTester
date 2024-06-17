@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "Common.hpp"
 #include "Vector.hpp"
 #include <cstdint>
 #include <cmath>
@@ -49,7 +50,7 @@ namespace Math {
       Matrix<T,C,R>& operator*=(const T& other);
    public:
       [[nodiscard]] Matrix<T, R, C> Transpose() const;
-      [[nodiscard]] Matrix<T, std::min(C,R), std::min(C,R)> Inverse() const;
+      [[nodiscard]] Matrix<T, Common::Min(C,R), Common::Min(C,R)> Inverse() const;
       [[nodiscard]] bool CanBeInverse() const;
       [[nodiscard]] T Determinant() const;
    private:
@@ -62,7 +63,7 @@ namespace Math {
    template<typename T, uint64_t C, uint64_t R>
    Matrix<T, C, R>::Matrix(const T &val) {
       std::memset(values.data(), 0, C * R * sizeof(T));
-      for (int i = 0; i < std::min(C,R); ++i) {
+      for (int i = 0; i < Common::Min(C,R); ++i) {
          rows[i][i] = val;
       }
    }
@@ -71,7 +72,7 @@ namespace Math {
    bool Matrix<T, C, R>::CanBeInverse() const {
       static_assert(C == R, "Only square matrices can be inversed");
       T det = this->Determinant();
-      return (fabs(det) >= 1e-9);
+      return (Common::Abs(det) >= 1e-9);
    }
 
    template<typename T, uint64_t C, uint64_t R>
@@ -87,7 +88,7 @@ namespace Math {
 
       T det = 0;
       for (uint64_t p = 0; p < R; p++) {
-         Matrix<T, R-1, R-1> subMatrix;
+         Matrix<T, std::min(R-1, R), std::min(R-1, R)> subMatrix;
 
          for (uint64_t i = 1; i < R; i++) {
             uint64_t k = 0;
@@ -119,7 +120,7 @@ namespace Math {
    Matrix<T, C, R>::Matrix() {
       std::memset(values.data(), 0, sizeof(T) * C * R);
       if(C == R) {
-         for (int i = 0; i < std::min(C, R); ++i) {
+         for (int i = 0; i < Common::Min(C, R); ++i) {
             rows[i][i] = 1;
          }
       }
@@ -130,8 +131,8 @@ namespace Math {
    Matrix<T,C,R>::Matrix(const Matrix<OT,OC,OR>& other)
    {
       std::memset(values.data(), 0, sizeof(T) * C * R);
-      for (int r = 0; r < std::min(OR, R); ++r) {
-         for (int c = 0; c < std::min(OC, C); ++c) {
+      for (int r = 0; r < Common::Min(OR, R); ++r) {
+         for (int c = 0; c < Common::Min(OC, C); ++c) {
             rows[r][c] = other(r, c);
          }
       }
@@ -207,20 +208,20 @@ namespace Math {
    }
 
    template<typename T, uint64_t C, uint64_t R>
-   Matrix<T, std::min(C,R), std::min(C,R)> Matrix<T, C, R>::Inverse() const {
-      const constexpr uint64_t N = std::min(C, R);
+   Matrix<T, Common::Min(C,R), Common::Min(C,R)> Matrix<T, C, R>::Inverse() const {
+      const constexpr uint64_t N = Common::Min(C, R);
       Matrix<T, N, N> invMatrix = Matrix<T, N, N>::Identity();
       Matrix<T, N, N> tempMatrix = *this;
 
-      static_assert(tempMatrix.CanBeInverse(), "The matrix cannot be inversed.");
+      CORE_ASSERT(tempMatrix.CanBeInverse(), "The matrix cannot be inversed.");
 
       // Pivoting Phase
       for (uint64_t i = 0; i < N; ++i) {
          if (tempMatrix(i, i) == 0) {
             for (uint64_t j = i; j < N; ++j) {
                if (tempMatrix(j, i) != 0) {
-                  std::swap(tempMatrix.data[i], tempMatrix.data[j]);
-                  std::swap(invMatrix.data[i], invMatrix.data[j]);
+                  std::swap(tempMatrix.rows[i], tempMatrix.rows[j]);
+                  std::swap(invMatrix.rows[i], invMatrix.rows[j]);
                   break;
                }
             }
@@ -231,7 +232,6 @@ namespace Math {
          if(div == 0) {
             //TODO: See if I really want to throw.
             throw std::runtime_error("Matrix is not invertible.");
-            return invMatrix;
          }
          for (uint64_t j = 0; j < N; ++j) {
             tempMatrix(i, j) /= div;
@@ -252,8 +252,9 @@ namespace Math {
 
       return invMatrix;
    }
-   using Mat4 = Matrix<float, 4, 4>;
-   using Mat3 = Matrix<float, 3, 3>;
-   using Mat2 = Matrix<float, 2, 2>;
+
+   using Mat4 = Matrix<Real, 4, 4>;
+   using Mat3 = Matrix<Real, 3, 3>;
+   using Mat2 = Matrix<Real, 2, 2>;
 
 } // Math

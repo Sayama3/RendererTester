@@ -16,6 +16,8 @@ set(APP_SRC
         include/Render/Mesh.hpp
         src/Render/Shader.cpp
         include/Render/Shader.hpp
+        src/App/Camera.cpp
+        include/App/Camera.hpp
 )
 
 add_executable(App ${APP_SRC})
