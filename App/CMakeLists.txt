@@ -18,6 +18,8 @@ set(APP_SRC
         include/Render/Shader.hpp
         src/App/Camera.cpp
         include/App/Camera.hpp
+		src/App/ImGuiContext.cpp
+		include/App/ImGuiContext.hpp
 )
 
 add_executable(App ${APP_SRC})

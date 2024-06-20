@@ -147,7 +147,7 @@ namespace Math {
    template<typename T, uint64_t C, uint64_t R>
    template<uint64_t OC>
    Matrix<T, OC, R> Matrix<T, C, R>::operator*(const Matrix<T, OC, C> &other) const {
-      Matrix<T, OC, R> result {};
+      Matrix<T, OC, R> result {0};
 
       for (uint64_t i = 0; i < R; ++i) {
          for (uint64_t j = 0; j < OC; ++j) {
@@ -162,7 +162,7 @@ namespace Math {
 
    template<typename T, uint64_t C, uint64_t R>
    Vector<T, R> Matrix<T, C, R>::operator*(const Vector<T, C>& other) const {
-      Vector<T, R> result;
+      Vector<T, R> result{0};
 
       for (uint64_t i = 0; i < R; ++i) {
          for (uint64_t j = 0; j < C; ++j) {

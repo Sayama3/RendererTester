@@ -121,7 +121,6 @@ namespace Math {
    void Quaternion<T>::RotateByVector(const Vector<T, 3> &other) {
       Quaternion<T> o(other);
       (*this) *= o;
-      return *this;
    }
 
    template<typename T>

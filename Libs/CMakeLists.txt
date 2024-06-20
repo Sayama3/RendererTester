@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-# ImGui Parameters
+# ImGuiContext Parameters
 set(IMGUI_GLFW              ON)
 set(IMGUI_OPENGL3           ON)
 set(IMGUI_OPENGL3_LOADER    ON)

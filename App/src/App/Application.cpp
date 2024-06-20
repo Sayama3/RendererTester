@@ -7,16 +7,18 @@
 #include "Core/Core.hpp"
 
 #include <glad/glad.h>
+#include <imgui.h>
+
 namespace App {
 
-   Application::Application(const WindowParameters &parameters) : m_Window(parameters) {
+	Application::Application(const WindowParameters &parameters) : m_Window(parameters), m_ImGui(m_Window.GetNativeWindow<void>(), "#version 450")
+	{
+	}
 
-   }
+	void Application::Run() {
+		Render::Renderer::SetClearColor({{0.8f}});
 
-   void Application::Run() {
-      Render::Renderer::SetClearColor({{0.8f, 0.2f, 0.1f}});
-
-      std::string vertexShader = R"(
+		std::string vertexShader = R"(
 #version 450 core
 
 uniform mat4 u_ViewProjectionMatrix = mat4(1);
@@ -43,7 +45,7 @@ void main() {
     v_Color = a_Color;
 }
 )";
-      std::string fragmentShader = R"(
+		std::string fragmentShader = R"(
 #version 450 core
 
 uniform mat4 u_ViewProjectionMatrix;
@@ -60,65 +62,65 @@ in vec4 v_Color;
 
 void main()
 {
-   //o_Color = vec4((v_Normal + 1.0) * 0.5, 1.0);
-   o_Color = vec4(v_Position, 1.0);
+//   o_Color = vec4((v_Normal + 1.0) * 0.5, 1.0);
+   o_Color = v_Color;
+//	o_Color = vec4(1);
 }
 )";
 
-      std::vector<Render::Vertex> cube {
-            //Front Face
-            Render::Vertex(Math::Vec3({-0.5f, -0.5f, +0.5f}), Math::Vec3({0,0,+1}), Math::Vec2({0,0})), // 0
-            Render::Vertex(Math::Vec3({+0.5f, -0.5f, +0.5f}), Math::Vec3({0,0,+1}), Math::Vec2({1,0})), // 1
-            Render::Vertex(Math::Vec3({+0.5f, +0.5f, +0.5f}), Math::Vec3({0,0,+1}), Math::Vec2({1,1})), // 2
-            Render::Vertex(Math::Vec3({-0.5f, +0.5f, +0.5f}), Math::Vec3({0,0,+1}), Math::Vec2({0,1})), // 3
-            //Front Face
-            Render::Vertex(Math::Vec3({-0.5f, -0.5f, -0.5f}), Math::Vec3({0,0,-1}), Math::Vec2({0,0})), // 4
-            Render::Vertex(Math::Vec3({+0.5f, -0.5f, -0.5f}), Math::Vec3({0,0,-1}), Math::Vec2({1,0})), // 5
-            Render::Vertex(Math::Vec3({+0.5f, +0.5f, -0.5f}), Math::Vec3({0,0,-1}), Math::Vec2({1,1})), // 6
-            Render::Vertex(Math::Vec3({-0.5f, +0.5f, -0.5f}), Math::Vec3({0,0,-1}), Math::Vec2({0,1})), // 7
-            //Up Face
-            Render::Vertex(Math::Vec3({-0.5f, +0.5f, -0.5f}), Math::Vec3({0,+1, 0}), Math::Vec2({0,0})), // 8
-            Render::Vertex(Math::Vec3({+0.5f, +0.5f, -0.5f}), Math::Vec3({0,+1, 0}), Math::Vec2({1,0})), // 9
-            Render::Vertex(Math::Vec3({+0.5f, +0.5f, +0.5f}), Math::Vec3({0,+1, 0}), Math::Vec2({1,1})), // 10
-            Render::Vertex(Math::Vec3({-0.5f, +0.5f, +0.5f}), Math::Vec3({0,+1, 0}), Math::Vec2({0,1})), // 11
-            //Down Face
-            Render::Vertex(Math::Vec3({-0.5f, -0.5f, -0.5f}), Math::Vec3({0,-1, 0}), Math::Vec2({0,0})), // 12
-            Render::Vertex(Math::Vec3({+0.5f, -0.5f, -0.5f}), Math::Vec3({0,-1, 0}), Math::Vec2({1,0})), // 13
-            Render::Vertex(Math::Vec3({+0.5f, -0.5f, +0.5f}), Math::Vec3({0,-1, 0}), Math::Vec2({1,1})), // 14
-            Render::Vertex(Math::Vec3({-0.5f, -0.5f, +0.5f}), Math::Vec3({0,-1, 0}), Math::Vec2({0,1})), // 15
-            //Right Face
-            Render::Vertex(Math::Vec3({+0.5f, -0.5f, -0.5f}), Math::Vec3({+1, 0, 0}), Math::Vec2({0,0})), // 16
-            Render::Vertex(Math::Vec3({+0.5f, +0.5f, -0.5f}), Math::Vec3({+1, 0, 0}), Math::Vec2({1,0})), // 17
-            Render::Vertex(Math::Vec3({+0.5f, +0.5f, +0.5f}), Math::Vec3({+1, 0, 0}), Math::Vec2({1,1})), // 18
-            Render::Vertex(Math::Vec3({+0.5f, -0.5f, +0.5f}), Math::Vec3({+1, 0, 0}), Math::Vec2({0,1})), // 19
-            //Left Face
-            Render::Vertex(Math::Vec3({-0.5f, -0.5f, -0.5f}), Math::Vec3({-1, 0, 0}), Math::Vec2({0,0})), // 20
-            Render::Vertex(Math::Vec3({-0.5f, +0.5f, -0.5f}), Math::Vec3({-1, 0, 0}), Math::Vec2({1,0})), // 21
-            Render::Vertex(Math::Vec3({-0.5f, +0.5f, +0.5f}), Math::Vec3({-1, 0, 0}), Math::Vec2({1,1})), // 22
-            Render::Vertex(Math::Vec3({-0.5f, -0.5f, +0.5f}), Math::Vec3({-1, 0, 0}), Math::Vec2({0,1})), // 23
+		std::vector<Render::Vertex> cube {
+				//Front Face
+				Render::Vertex(Math::Vec3({-0.5f, -0.5f, +0.5f}), Math::Vec3({0,0,+1}), Math::Vec2({0,0}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 0
+				Render::Vertex(Math::Vec3({+0.5f, -0.5f, +0.5f}), Math::Vec3({0,0,+1}), Math::Vec2({1,0}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 1
+				Render::Vertex(Math::Vec3({+0.5f, +0.5f, +0.5f}), Math::Vec3({0,0,+1}), Math::Vec2({1,1}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 2
+				Render::Vertex(Math::Vec3({-0.5f, +0.5f, +0.5f}), Math::Vec3({0,0,+1}), Math::Vec2({0,1}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 3
+				//Front Face
+				Render::Vertex(Math::Vec3({-0.5f, -0.5f, -0.5f}), Math::Vec3({0,0,-1}), Math::Vec2({0,0}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 4
+				Render::Vertex(Math::Vec3({+0.5f, -0.5f, -0.5f}), Math::Vec3({0,0,-1}), Math::Vec2({1,0}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 5
+				Render::Vertex(Math::Vec3({+0.5f, +0.5f, -0.5f}), Math::Vec3({0,0,-1}), Math::Vec2({1,1}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 6
+				Render::Vertex(Math::Vec3({-0.5f, +0.5f, -0.5f}), Math::Vec3({0,0,-1}), Math::Vec2({0,1}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 7
+				//Up Face
+				Render::Vertex(Math::Vec3({-0.5f, +0.5f, -0.5f}), Math::Vec3({0,+1, 0}), Math::Vec2({0,0}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 8
+				Render::Vertex(Math::Vec3({+0.5f, +0.5f, -0.5f}), Math::Vec3({0,+1, 0}), Math::Vec2({1,0}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 9
+				Render::Vertex(Math::Vec3({+0.5f, +0.5f, +0.5f}), Math::Vec3({0,+1, 0}), Math::Vec2({1,1}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 10
+				Render::Vertex(Math::Vec3({-0.5f, +0.5f, +0.5f}), Math::Vec3({0,+1, 0}), Math::Vec2({0,1}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 11
+				//Down Face
+				Render::Vertex(Math::Vec3({-0.5f, -0.5f, -0.5f}), Math::Vec3({0,-1, 0}), Math::Vec2({0,0}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 12
+				Render::Vertex(Math::Vec3({+0.5f, -0.5f, -0.5f}), Math::Vec3({0,-1, 0}), Math::Vec2({1,0}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 13
+				Render::Vertex(Math::Vec3({+0.5f, -0.5f, +0.5f}), Math::Vec3({0,-1, 0}), Math::Vec2({1,1}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 14
+				Render::Vertex(Math::Vec3({-0.5f, -0.5f, +0.5f}), Math::Vec3({0,-1, 0}), Math::Vec2({0,1}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 15
+				//Right Face
+				Render::Vertex(Math::Vec3({+0.5f, -0.5f, -0.5f}), Math::Vec3({+1, 0, 0}), Math::Vec2({0,0}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 16
+				Render::Vertex(Math::Vec3({+0.5f, +0.5f, -0.5f}), Math::Vec3({+1, 0, 0}), Math::Vec2({1,0}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 17
+				Render::Vertex(Math::Vec3({+0.5f, +0.5f, +0.5f}), Math::Vec3({+1, 0, 0}), Math::Vec2({1,1}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 18
+				Render::Vertex(Math::Vec3({+0.5f, -0.5f, +0.5f}), Math::Vec3({+1, 0, 0}), Math::Vec2({0,1}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 19
+				//Left Face
+				Render::Vertex(Math::Vec3({-0.5f, -0.5f, -0.5f}), Math::Vec3({-1, 0, 0}), Math::Vec2({0,0}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 20
+				Render::Vertex(Math::Vec3({-0.5f, +0.5f, -0.5f}), Math::Vec3({-1, 0, 0}), Math::Vec2({1,0}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 21
+				Render::Vertex(Math::Vec3({-0.5f, +0.5f, +0.5f}), Math::Vec3({-1, 0, 0}), Math::Vec2({1,1}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 22
+				Render::Vertex(Math::Vec3({-0.5f, -0.5f, +0.5f}), Math::Vec3({-1, 0, 0}), Math::Vec2({0,1}), Math::Vec4({0.8, 0.2, 0.3, 1.0})), // 23
+		};
 
-      };
-
-      std::vector<uint32_t> vertices {
-            // Front
-            0,1,2,
-            0,2,3,
-            // Back
-            4,6,5,
-            4,7,6,
-            // Up
-            8,10,9,
-            8,11,10,
-            // Down
-            12,13,14,
-            12,14,15,
-            // Front
-            16,17,18,
-            16,18,19,
-            // Back
-            20,22,21,
-            20,23,22,
-      };
+		std::vector<uint32_t> vertices {
+				// Front
+				0,1,2,
+				0,2,3,
+				// Back
+				4,6,5,
+				4,7,6,
+				// Up
+				8,10,9,
+				8,11,10,
+				// Down
+				12,13,14,
+				12,14,15,
+				// Front
+				16,17,18,
+				16,18,19,
+				// Back
+				20,22,21,
+				20,23,22,
+		};
 
 //      std::vector<Render::Vertex> cube {
 //            Render::Vertex(Math::Vec3({-0.5f, -0.5f, 0.0f}), Math::Vec3({0,0,1}), Math::Vec2({0,0})), // 0
@@ -132,40 +134,76 @@ void main()
 //            0,2,3
 //      };
 
-      m_Shader = Render::Shader::Create(vertexShader, fragmentShader);
-      m_Mesh = Render::Mesh::Create(cube, vertices);
-      auto vao = m_Mesh->GetVertexArray();
-      while (!m_Window.ShouldClose())
-      {
-         CORE_FRAME_START();
-         m_Window.PollEvents();
+		m_Shader = Render::Shader::Create(vertexShader, fragmentShader);
+		m_Mesh = Render::Mesh::Create(cube, vertices);
+		while (!m_Window.ShouldClose())
+		{
+			CORE_FRAME_START();
+			m_Window.PollEvents();
 
-         Render::Renderer::Clear();
-         m_Shader->Bind();
+			Render::Renderer::Clear();
 
-         Math::Mat4 vp = Math::Perspective(Math::DegToRad(60.0f), 900.f/600.f, 0.1f, 100.f);
-         Math::Mat4 m = Math::Mat4::Identity();
-         m[3] = Math::Vec4({0.65f, 0.65f, -2.0f, 1});
+			UpdateApplication();
 
-         Math::Mat4 n = Math::Mat4::Identity();
-         m_Shader->SetUniformMat4("u_ViewProjectionMatrix", vp);
-         m_Shader->SetUniformMat4("u_ModelMatrix", m);
-         m_Shader->SetUniformMat4("u_NormalMatrix", n);
+			UpdateImGui();
 
-         vao->Bind();
+			m_Window.SwapBuffers();
+			CORE_FRAME_END();
+		}
 
-         glDrawElements(GL_TRIANGLES, vao->GetDrawCount(), GL_UNSIGNED_INT, nullptr);
+	}
 
-         vao->Unbind();
-         m_Shader->Unbind();
+	void Application::UpdateImGui() {
+		m_ImGui.NewFrame();
 
-         m_Window.SwapBuffers();
-         CORE_FRAME_END();
-      }
+		static bool s_Open = true;
+		if(s_Open) ImGui::ShowDemoWindow(&s_Open);
 
-   }
 
-   Application::~Application()
-   {
-   }
+		ImGui::Begin("Camera");
+		{
+			Math::Vec3 position = m_Camera.getPosition();
+			Math::Quat rotation = m_Camera.getRotation();
+
+			if(ImGui::DragFloat3("Position", position.get(), 0.1f))
+			{
+				m_Camera.setPosition(position);
+			}
+
+			if(ImGui::DragFloat4("Rotation", rotation.get()))
+			{
+				m_Camera.setRotation(rotation);
+			}
+		}
+		ImGui::End();
+
+
+		m_ImGui.EndFrame(m_Window.GetWidth(), m_Window.GetHeight());
+	}
+
+	Application::~Application()
+	{
+	}
+
+	void Application::UpdateApplication() {
+		auto vao = m_Mesh->GetVertexArray();
+
+		m_Shader->Bind();
+
+		Math::Mat4 vp = m_Camera.CalculateProjectionMatrix() * m_Camera.CalculateViewMatrix();
+		Math::Mat4 m = Math::Mat4::Identity();
+		m[3] = Math::Vec4({0.65f, 0.65f, -2.0f, 1});
+
+		Math::Mat4 n = Math::Mat4::Identity();
+		m_Shader->SetUniformMat4("u_ViewProjectionMatrix", vp);
+		m_Shader->SetUniformMat4("u_ModelMatrix", m);
+		m_Shader->SetUniformMat4("u_NormalMatrix", n);
+
+		vao->Bind();
+
+		glDrawElements(GL_TRIANGLES, vao->GetDrawCount(), GL_UNSIGNED_INT, nullptr);
+
+		vao->Unbind();
+		m_Shader->Unbind();
+	}
 } // App

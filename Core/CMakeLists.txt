@@ -20,5 +20,5 @@ add_library(Core STATIC ${CORE_SRC})
 target_include_directories(Core PUBLIC include)
 target_include_directories(Core PRIVATE src)
 
-target_link_libraries(Core PUBLIC spdlog::spdlog_header_only tracy)
+target_link_libraries(Core PUBLIC spdlog::spdlog_header_only tracy imgui)
 target_compile_features(Core PUBLIC cxx_std_20)

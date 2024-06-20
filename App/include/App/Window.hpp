@@ -24,6 +24,9 @@ namespace App {
       void Close();
       void PollEvents();
       void SwapBuffers();
+
+	  [[nodiscard]] uint32_t GetWidth() const;
+	  [[nodiscard]] uint32_t GetHeight() const;
    public:
       template<typename T>
       T* GetNativeWindow() {return reinterpret_cast<T*>(m_Window);}

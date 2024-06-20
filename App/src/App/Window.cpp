@@ -81,4 +81,12 @@ namespace App {
       CORE_PROFILE_FUNCTION();
       glfwSwapBuffers(GetNativeWindow<GLFWwindow>());
    }
+
+	uint32_t Window::GetWidth() const {
+		return m_Parameters.Width;
+	}
+
+	uint32_t Window::GetHeight() const {
+		return m_Parameters.Height;
+	}
 } // App

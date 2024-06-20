@@ -44,10 +44,10 @@ namespace App {
 
    private:
       float m_Fov = 60.0f;
-      float m_AspectRatio = 16.0 / 9.0f;
+      float m_AspectRatio = 900.0 / 600.0f;
       float m_ZNear = 0.1f, m_ZFar = 100.f;
 
-      Math::Vec3 m_Position{{0, 0, 0}};
+      Math::Vec3 m_Position{{1.25, 1.25, -5}};
       Math::Quat m_Rotation{0,0,0,1};
    };
 

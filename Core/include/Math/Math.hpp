@@ -72,7 +72,7 @@ namespace Math {
    template<typename T>
    T RadToDeg(T radians)
    {
-      return radians * (static_cast<T>(180) / std::numbers::pi_v<T>);
+      return radians * RadToDeg<T>();
    }
 
    template<typename T>
@@ -84,16 +84,16 @@ namespace Math {
    template<typename T>
    T DegToRad(T degree)
    {
-      return degree * (std::numbers::pi_v<T> / static_cast<T>(180));
+      return degree * DegToRad<T>();
    }
 
    template<typename T>
    Matrix<T, 4, 4> ToMat4(const Quaternion<T>& qua)
    {
-      T w = qua[0];
-      T x = qua[1];
-      T y = qua[2];
-      T z = qua[3];
+      T x = qua[0];
+      T y = qua[1];
+      T z = qua[2];
+      T w = qua[3];
 
       Matrix<T, 4, 4> matrix;
 
@@ -109,7 +109,9 @@ namespace Math {
       matrix(2, 1) = 2*y*z + 2*x*w;
       matrix(2, 2) = 1 - 2*x*x - 2*y*y;
 
-      return matrix;
+	   matrix(3, 3) = 1;
+
+	   return matrix;
    }
 
    template<typename T>
@@ -140,9 +142,9 @@ namespace Math {
    template<typename T>
    void Translate(Matrix<T, 4, 4>& matrix, Vector<T, 3> translation)
    {
-      matrix(0, 3) += translation[0];
-      matrix(1, 3) += translation[1];
-      matrix(2, 3) += translation[2];
+      matrix(3, 0) += translation[0];
+      matrix(3, 1) += translation[1];
+      matrix(3, 2) += translation[2];
    }
    template<typename T>
    void Rotate(Matrix<T, 4, 4>& matrix, Quaternion<T> rotation)
