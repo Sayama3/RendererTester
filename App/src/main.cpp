@@ -2,6 +2,10 @@
 // Created by ianpo on 01/06/2024.
 //
 
+
+#define STB_IMAGE_IMPLEMENTATION
+#include <vendor/stb_image.h>
+
 #include "Core/Core.hpp"
 #include "App/Application.hpp"
 

@@ -34,9 +34,13 @@ namespace App {
       [[nodiscard]] Math::Vec3 getPosition() const;
       void setPosition(const Math::Vec3& position);
 
-      // Rotation getters and setters
-      [[nodiscard]] Math::Quat getRotation() const;
-      void setRotation(const Math::Quat& rotation);
+      // Forward getters and setters
+      [[nodiscard]] Math::Vec3 getForward() const;
+      void setForward(const Math::Vec3& forward);
+
+      // Up getters and setters
+      [[nodiscard]] Math::Vec3 getUp() const;
+      void setUp(const Math::Vec3& up);
 
    public:
       [[nodiscard]] Math::Mat4 CalculateViewMatrix() const;
@@ -44,11 +48,12 @@ namespace App {
 
    private:
       float m_Fov = 60.0f;
-      float m_AspectRatio = 900.0 / 600.0f;
+      float m_AspectRatio = 900.0f / 600.0f;
       float m_ZNear = 0.1f, m_ZFar = 100.f;
 
-      Math::Vec3 m_Position{{1.25, 1.25, -5}};
-      Math::Quat m_Rotation{0,0,0,1};
+      Math::Vec3 m_Position {0};
+      Math::Vec3 m_Forward {{0, 0, 1}};
+      Math::Vec3 m_Up {{0, 1, 0}};
    };
 
 } // App

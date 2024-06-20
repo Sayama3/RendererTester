@@ -20,6 +20,11 @@ set(APP_SRC
         include/App/Camera.hpp
 		src/App/ImGuiContext.cpp
 		include/App/ImGuiContext.hpp
+		src/Render/Texture.cpp
+		include/Render/Texture.hpp
+		include/vendor/stb_image.h
+		src/App/ImGuiLib.cpp
+		include/App/ImGuiLib.hpp
 )
 
 add_executable(App ${APP_SRC})

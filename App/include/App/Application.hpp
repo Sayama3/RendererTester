@@ -10,6 +10,7 @@
 #include "Core/SmartPointers.hpp"
 #include "Render/Mesh.hpp"
 #include "Render/Shader.hpp"
+#include "Render/Texture.hpp"
 
 namespace App {
 
@@ -29,6 +30,7 @@ namespace App {
 	private:
 		//TODO: Remove as not clean.
 		Core::Ref<Render::Shader> m_Shader = nullptr;
+		Core::Ref<Render::Texture> m_Texture = nullptr;
 		Core::Ref<Render::Mesh> m_Mesh = nullptr;
 
 	private:

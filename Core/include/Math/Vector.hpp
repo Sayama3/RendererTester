@@ -31,12 +31,6 @@ namespace Math {
       Vector(const std::array<T, N>&);
       Vector(const T&);
 
-      Vector<T, N> operator+(Vector<T, N> other);
-      Vector<T, N> operator-(Vector<T, N> other);
-      Vector<T, N> operator+(const T& scalar);
-      Vector<T, N> operator-(const T& scalar);
-      Vector<T, N> operator*(const T& scalar);
-
       Vector<T, N>& operator+=(const Vector<T, N>& other);
       Vector<T, N>& operator-=(const Vector<T, N>& other);
       Vector<T, N>& operator+=(const T& scalar);
@@ -69,7 +63,7 @@ namespace Math {
 
       // Calculate the magnitude (length) of the vector
       for (uint64_t i = 0; i < N; ++i) {
-         sqrMagnitude += this->data[i] * this->data[i];
+         sqrMagnitude += this->values[i] * this->values[i];
       }
 
       return sqrMagnitude;
@@ -90,7 +84,7 @@ namespace Math {
 
       // Divide each component by the magnitude
       for (uint64_t i = 0; i < N; ++i) {
-         this->data[i] /= magnitude;
+         this->values[i] /= magnitude;
       }
    }
 
@@ -167,36 +161,39 @@ namespace Math {
 
 
    template<typename T, uint64_t N>
-   Vector<T, N> Vector<T, N>::operator-(const T& scalar) {
-      Vector<T, N> other(*this);
-      other -= scalar;
-      return other;
+   Vector<T, N> operator-(Vector<T, N> lft, const T& scalar) {
+      lft -= scalar;
+      return lft;
    }
 
    template<typename T, uint64_t N>
-   Vector<T, N> Vector<T, N>::operator+(const T& scalar) {
-      Vector<T, N> other(*this);
-      other += scalar;
-      return other;
+   Vector<T, N> operator+(Vector<T, N> lft, const T& scalar) {
+      lft += scalar;
+      return lft;
    }
 
    template<typename T, uint64_t N>
-   Vector<T, N> Vector<T, N>::operator*(const T& scalar) {
-      Vector<T, N> other(*this);
-      other *= scalar;
-      return other;
+   Vector<T, N> operator*(Vector<T, N> lft, const T& scalar) {
+      lft *= scalar;
+      return lft;
    }
 
    template<typename T, uint64_t N>
-   Vector<T, N> Vector<T, N>::operator-(Vector<T, N> other) {
-      other -= *this;
-      return *this;
+   Vector<T, N> operator-(Vector<T, N> lft, const Vector<T, N>& other) {
+      lft -= other;
+      return lft;
+   }
+   template<typename T, uint64_t N>
+   Vector<T, N> operator-(const Vector<T, N>& lft) {
+	   Vector<T, N> other (0);
+	   other -= lft;
+	   return other;
    }
 
    template<typename T, uint64_t N>
-   Vector<T, N> Vector<T, N>::operator+(Vector<T, N> other) {
-      other += *this;
-      return other;
+   Vector<T, N> operator+(Vector<T, N> lft, const Vector<T, N>& other) {
+      lft += other;
+      return lft;
    }
 
    using Vec4 = Vector<Real, 4>;

@@ -30,11 +30,11 @@ namespace Math {
    template<typename T>
    Vector<T, 3> Cross(const Vector<T, 3> &lft, const Vector<T, 3> & rgh)
    {
-      return {
+      return {{
             lft[1]*rgh[2] - lft[2]*rgh[1],
             lft[2]*rgh[0] - lft[0]*rgh[2],
             lft[0]*rgh[1] - lft[1]*rgh[0]
-      };
+      }};
    }
 
    template<typename T, uint64_t N>

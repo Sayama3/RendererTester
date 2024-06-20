@@ -159,6 +159,12 @@ namespace Render {
       auto location = glGetUniformLocation(m_RenderID, name.c_str());
       glUniform3fv(location, 1, matrix.get());
    }
+	void Shader::SetUniformTexture(const std::string& name, uint32_t slot)
+	{
+	   CORE_PROFILE_FUNCTION();
+		auto location = glGetUniformLocation(m_RenderID, name.c_str());
+	   glUniform1i(location, slot);
+	}
 
    std::string ShaderSourceTypeToString(Shader::Type sst) {
       switch (sst) {
