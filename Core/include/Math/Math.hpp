@@ -140,6 +140,33 @@ namespace Math {
    }
 
    template<typename T>
+   Matrix<T,3,3> LookAt(const Vector<T,3>& forward, const Vector<T,3>& up = {0,1,0})
+   {
+	   Matrix<T,3,3> result = {Math::Cross(up, forward), up, forward};
+	   result[0].Normalize();
+
+	   result[1] = Math::Cross(result[2], result[0]);
+	   result[1].Normalize();
+
+	   result[2].Normalize();
+
+	   return result;
+   }
+
+   template<typename T>
+   void LookAt(Matrix<T,3,3>* matrix, const Vector<T,3>& forward, const Vector<T,3>& up = {0,1,0})
+   {
+	   matrix[0] = Math::Cross(up, forward);
+	   matrix[0].Normalize();
+
+	   matrix[1] = Math::Cross(forward, matrix[0]);
+	   matrix[1].Normalize();
+
+	   matrix[2] = forward;
+	   matrix[2].Normalize();
+   }
+
+   template<typename T>
    void Translate(Matrix<T, 4, 4>& matrix, Vector<T, 3> translation)
    {
       matrix(3, 0) += translation[0];
